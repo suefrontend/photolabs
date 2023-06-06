@@ -24,6 +24,7 @@ const PhotoList = (props) => {
       selectTopic={props.selectTopic}
       setModalPhoto={props.setModalPhoto}
       addToFavourite={props.addToFavourite}
+      dispatch={props.dispatch}
     />
   ));
 

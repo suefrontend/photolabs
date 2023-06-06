@@ -52,6 +52,7 @@ export const PhotoDetailsModal = (props) => {
           imageContainerClassName="photo-details-large-image"
           favouritePhotos={props.favouritePhotos}
           addToFavourite={props.addToFavourite}
+          dispatch={props.dispatch}
         />
 
         <h2 className="photo-details-modal--header">Similar Photos</h2>
@@ -61,6 +62,7 @@ export const PhotoDetailsModal = (props) => {
           imageContainerClassName={props.imageContainerClassName}
           favouritePhotos={props.favouritePhotos}
           addToFavourite={props.addToFavourite}
+          dispatch={props.dispatch}
         />
       </div>
     </div>
