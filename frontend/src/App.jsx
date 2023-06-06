@@ -87,6 +87,7 @@ const App = () => {
           selectedPhoto={selectedPhoto}
           photos={photos}
           addToFavourite={addToFavourite}
+          dispatch={dispatch}
         />
       )}
     </div>
