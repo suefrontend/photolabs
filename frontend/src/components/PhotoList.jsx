@@ -3,7 +3,7 @@ import PhotoListItem from "./PhotoListItem";
 import "../styles/PhotoList.scss";
 
 const PhotoList = (props) => {
-
+  // Find out if a photo is favourited using photo.id (true or false)
   const isPhotoFavourite = (id) => props.favouritePhotos.includes(id);
 
   const renderPhotos = props.photos.map((photo) => (
