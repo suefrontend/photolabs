@@ -5,9 +5,9 @@ import { FavIcon } from "./FavIcon";
 import "../styles/PhotoFavButton.scss";
 
 function PhotoFavButton(props) {
-
   const handleClick = () => {
-    props.addToFavourite(props.id);
+    // props.addToFavourite(props.id);
+    props.dispatch({ type: "ADD_TO_FAVOURITE", payload: props.id });
   };
 
   return (

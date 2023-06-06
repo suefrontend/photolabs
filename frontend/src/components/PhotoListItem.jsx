@@ -16,6 +16,7 @@ const PhotoListItem = (props) => {
         addToFavourite={props.addToFavourite}
         id={props.id}
         isFavourite={props.isFavourite}
+        dispatch={props.dispatch}
       />
       <img
         src={props.imageSource}

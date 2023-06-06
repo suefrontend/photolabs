@@ -1,42 +1,60 @@
-import { useState } from "react";
+import { useReducer } from "react";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "SET_SHOW_MODAL":
+      return { ...state, showModal: action.payload };
+    case "ADD_TO_FAVOURITE":
+      let likedPhoto;
+      if (state.favouritePhotos.includes(action.payload)) {
+        likedPhoto = state.favouritePhotos.filter(
+          (photo) => photo !== action.payload
+        );
+      } else {
+        likedPhoto = [...state.favouritePhotos, action.payload];
+      }
+      return { ...state, favouritePhotos: likedPhoto };
+    case "SET_SELECTED_PHOTO":
+      return { ...state, selectedPhoto: action.payload };
+    case "CLOSE_MODAL":
+      return { ...state, showModal: false };
+    default:
+      throw new Error(`Unhandled action type: ${action.type}`);
+  }
+};
+
+const initialState = {
+  showModal: false,
+  favouritePhotos: [],
+  selectedPhoto: "",
+};
 
 const useApplicationData = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [favouritePhotos, setFavouritePhotos] = useState([]);
-  const [selectedPhoto, setSelectedPhoto] = useState("");
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const addToFavourite = (id) => {
-    let likedPhoto;
-    if (favouritePhotos.includes(id)) {
-      likedPhoto = favouritePhotos.filter((photo) => photo !== id);
-    } else {
-      likedPhoto = [...favouritePhotos, id];
-    }
-    setFavouritePhotos(likedPhoto);
+    dispatch({ type: "ADD_TO_FAVOURITE", payload: id });
   };
 
   const openModal = () => {
-    setShowModal(true);
+    dispatch({ type: "SET_SHOW_MODAL", payload: true });
   };
 
   const setModalPhoto = (id) => {
-    setSelectedPhoto(id);
+    dispatch({ type: "SET_SELECTED_PHOTO", payload: id });
   };
 
   const closeModal = () => {
-    if (showModal) {
-      setShowModal(false);
-    }
+    dispatch({ type: "CLOSE_MODAL" });
   };
 
   return {
-    showModal,
+    ...state,
     openModal,
     addToFavourite,
-    favouritePhotos,
-    selectedPhoto,
     setModalPhoto,
     closeModal,
+    dispatch
   };
 };
 

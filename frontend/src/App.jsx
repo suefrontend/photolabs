@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.scss";
 import HomeRoute from "./routes/HomeRoute";
 import axios from "axios";
@@ -14,12 +14,12 @@ const App = () => {
     selectedPhoto,
     setModalPhoto,
     closeModal,
+    dispatch,
   } = useApplicationData();
 
   const [topics, setTopics] = useState([]);
   const [photos, setPhotos] = useState([]);
   const [selectedTopic, setSelectedTopic] = useState(null);
-  // const [state, dispatch] = useReducer(reducer, applicationState);
 
   const baseUrl = "http://localhost:8001/api";
 
@@ -73,7 +73,9 @@ const App = () => {
         openModal={openModal}
         selectTopic={selectTopic}
         setModalPhoto={setModalPhoto}
+        closeModal={closeModal}
         addToFavourite={addToFavourite}
+        dispatch={dispatch}
       />
       {showModal && (
         <PhotoDetailsModal
