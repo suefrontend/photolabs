@@ -1,82 +1,42 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 
 const useApplicationData = () => {
-  const [applicationState, setApplicationState] = useState({
-    showModal: false,
-    selectedPhoto: [],
-    favouritePhotos: [],
-    photos: [],
-    topics: [],
-  });
+  const [showModal, setShowModal] = useState(false);
+  const [favouritePhotos, setFavouritePhotos] = useState([]);
+  const [selectedPhoto, setSelectedPhoto] = useState("");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const photos = await axios("/api/photos");
-      const topics = await axios("/api/topics");
+  const addToFavourite = (id) => {
+    let likedPhoto;
+    if (favouritePhotos.includes(id)) {
+      likedPhoto = favouritePhotos.filter((photo) => photo !== id);
+    } else {
+      likedPhoto = [...favouritePhotos, id];
+    }
+    setFavouritePhotos(likedPhoto);
+  };
 
-      setApplicationState({
-        ...applicationState,
-        photos: photos.data,
-        topics: topics.data,
-      });
-    };
-    fetchData();
-  }, []);
+  const openModal = () => {
+    setShowModal(true);
+  };
 
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case "SELECT_PHOTO":
-        const selected = applicationState.photos.filter((photo) => {
-          return photo.id === action.payload;
-        });
-        if (!state.showModal) {
-          return {
-            ...state,
-            showModal: !applicationState.showModal,
-            selectedPhoto: selected.length > 0 ? selected : "",
-          };
-        }
-      case "FAV_PHOTO_ADDED":
-        const likedPhoto = applicationState.photos.find((photo) => {
-          return photo.id === action.payload;
-        });
+  const setModalPhoto = (id) => {
+    setSelectedPhoto(id);
+  };
 
-        const removedFromFavourite = state.favouritePhotos.filter((photo) => {
-          return photo.id !== action.payload;
-        });
-
-        const foundPhoto = state.favouritePhotos.find((favouritePhoto) => {
-          return likedPhoto.id === favouritePhoto.id;
-        });
-
-        if (!foundPhoto) {
-          return {
-            ...state,
-            favouritePhotos: [...state.favouritePhotos, likedPhoto],
-          };
-        } else {
-          return {
-            ...state,
-            favouritePhotos: removedFromFavourite,
-          };
-        }
-      case "CLOSE_MODAL":
-        if (state.showModal) {
-          return {
-            ...state,
-            showModal: false,
-            selectedPhoto: null,
-          };
-        }
-      default:
-        return state;
+  const closeModal = () => {
+    if (showModal) {
+      setShowModal(false);
     }
   };
 
   return {
-    applicationState,
-    reducer,
+    showModal,
+    openModal,
+    addToFavourite,
+    favouritePhotos,
+    selectedPhoto,
+    setModalPhoto,
+    closeModal,
   };
 };
 

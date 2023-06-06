@@ -3,12 +3,8 @@ import PhotoListItem from "./PhotoListItem";
 import "../styles/PhotoList.scss";
 
 const PhotoList = (props) => {
-  function isPhotoFavourite(photoListItem) {
-    const foundPhoto = props.favouritePhotos.find((favouritePhoto) => {
-      return photoListItem.id === favouritePhoto.id;
-    });
-    return !!foundPhoto;
-  }
+
+  const isPhotoFavourite = (id) => props.favouritePhotos.includes(id);
 
   const renderPhotos = props.photos.map((photo) => (
     <PhotoListItem
@@ -19,12 +15,15 @@ const PhotoList = (props) => {
       country={photo.location.country}
       thumbnail={photo.user.profile}
       id={photo.id}
-      dispatch={props.dispatch}
       imageContainerClassName={props.imageContainerClassName}
       imageClassName={props.imageClassName}
       showModal={props.showModal}
-      isFavourite={isPhotoFavourite(photo)}
+      isFavourite={isPhotoFavourite(photo.id)}
       favouritePhotos={props.favouritePhotos}
+      openModal={props.openModal}
+      selectTopic={props.selectTopic}
+      setModalPhoto={props.setModalPhoto}
+      addToFavourite={props.addToFavourite}
     />
   ));
 
